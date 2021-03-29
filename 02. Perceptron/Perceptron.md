@@ -22,12 +22,6 @@ Perceptron 신호는 1/0 의 두 가지 값을 가질 수 있음
 위 그림을 수식으로 나타내면 다음과 같음
 
 <img src="https://latex.codecogs.com/svg.latex?y=\begin{cases}0\left(&space;w_{1}x_{1}&plus;w_{2}x_{2}\leq&space;\theta&space;\right)&space;\\&space;1\left(&space;w_{1}x_{1}&plus;w_{2}x_{2}&space;>\theta&space;\right)&space;\end{cases}" title="y=\begin{cases}0\left( w_{1}x_{1}+w_{2}x_{2}\leq \theta \right) \\ 1\left( w_{1}x_{1}+w_{2}x_{2} >\theta \right) \end{cases}" />
-
-<img src="https://latex.codecogs.com/svg.latex?y=\begin{cases}0\left( w_{1}x_{1}+w_{2}x_{2}\leq \theta \right) \\ 1\left( w_{1}x_{1}+w_{2}x_{2} >\theta \right) \end{cases}" />
-
-![식 2-1](https://latex.codecogs.com/svg.latex?y=\begin{cases}0\left( w_{1}x_{1}+w_{2}x_{2}\leq \theta \right) \\ 1\left( w_{1}x_{1}+w_{2}x_{2} >\theta \right) \end{cases})
-
-y=\begin{cases}0\left( w_{1}x_{1}+w_{2}x_{2}\leq \theta \right) \\ 1\left( w_{1}x_{1}+w_{2}x_{2} >\theta \right) \end{cases}
  
 (식 2-1)
  
@@ -99,8 +93,8 @@ AND_1(1, 1)
  
 앞에서 구현한 AND 게이트를 수정하고자 함
 Θ를 -b 로 치환하면 Perceptron 의 동작이 다음 식처럼 됨
- 
-\begin{aligned}y=\begin{cases}0\left( b+w_{1}x_{1}+w_{2}x_{2}\leq 0\right) \\ 1\left( b+w_{1}x_{1}+w_{2}x_{2} >0\right) \end{cases}\\ \cdot -\end{aligned}
+
+<img src="https://latex.codecogs.com/svg.latex?y=\begin{cases}0\left(&space;b&plus;w_{1}x_{1}&plus;w_{2}x_{2}\leq&space;0\right)&space;\\&space;1\left(&space;b&plus;w_{1}x_{1}&plus;w_{2}x_{2}&space;>0\right)&space;\end{cases}\" title="y=\begin{cases}0\left( b+w_{1}x_{1}+w_{2}x_{2}\leq 0\right) \\ 1\left( b+w_{1}x_{1}+w_{2}x_{2} >0\right) \end{cases}\" />
  
 (식 2-2)
  
@@ -208,7 +202,7 @@ OR 게이트의 동작을 시각적으로 생각하도록 함
 가중치 매개 변수가 (b, w1, w2) = (-0.5, 1.0, 1.0) 일 때 (그림 2-4) 진리표를 만족함
 이 때의 Perceptron 은 다음 식과 같음
  
-y=\begin{cases}O\left( -0.5+x_{1}+x_{2}\leq 0\right) \\ 1\left( -0.5+x_{1}+x_{2} >0\right) \end{cases}
+<img src="https://latex.codecogs.com/svg.latex?y=\begin{cases}0\left(&space;-0.5&plus;x_{1}&plus;x_{2}\leq&space;0\right)&space;\\&space;1\left(&space;-0.5&plus;x_{1}&plus;x_{2}&space;>0\right)&space;\end{cases}" title="y=\begin{cases}0\left( -0.5+x_{1}+x_{2}\leq 0\right) \\ 1\left( -0.5+x_{1}+x_{2} >0\right) \end{cases}" />
  
 (식 2-3)
  
@@ -303,4 +297,8 @@ XOR 는 (그림 2-13) 같은 다층 구조의 네트워크 임
 * 2층 Perceptron 을 사용하면 XOR 게이트를 표현할 수 있다
 * 단층 Perceptron 은 선형 영역만 표현할 수 있고, 다층 Perceptron 은 비선형 영역도 표현할 수 있다
 * 다층 Perceptron 은 (이론상) 컴퓨터도 표현할 수 있다
- 
+
+### 참고 자료
+
+[밑바닥부터 시작하는 딥러닝](https://fliphtml5.com/hkuy/riaq/basic)
+[Online LaTex Equation Editor](https://www.codecogs.com/latex/eqneditor.php)
