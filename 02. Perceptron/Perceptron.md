@@ -21,6 +21,8 @@ Perceptron 신호는 1/0 의 두 가지 값을 가질 수 있음
  
 위 그림을 수식으로 나타내면 다음과 같음
 
+![식 2-1](https://latex.codecogs.com/svg.latex?y=\begin{cases}0\left( w_{1}x_{1}+w_{2}x_{2}\leq \theta \right) \\ 1\left( w_{1}x_{1}+w_{2}x_{2} >\theta \right) \end{cases})
+
 y=\begin{cases}0\left( w_{1}x_{1}+w_{2}x_{2}\leq \theta \right) \\ 1\left( w_{1}x_{1}+w_{2}x_{2} >\theta \right) \end{cases}
  
 (식 2-1)
@@ -56,8 +58,11 @@ OR 게이트는 입력 신호 중 하나 이상이 1이면 출력이 1이 되는
 OR 게이트 진리표 (그림 2-4)
  
 > Perceptron 의 매개 변수를 정하는 것은 컴퓨터가 아니라 인간임
+>
 > 기계 학습은 이 매개 변수를 정하는 작업을 컴퓨터가 자동으로 하도록 함
+>
 > (기계 학습일 때) 학습 : 적절한 매개 변수를 정하는 작업
+>
 > (기계 학습일 때) 사람 : Perceptron 의 구조 (모델) 을 고민하고, 학습 데이터를 줌
  
 Perceptron 으로 AND, NAND, OR 논리 회로를 표현할 수 있음
