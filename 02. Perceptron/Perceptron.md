@@ -21,6 +21,8 @@ Perceptron 신호는 1/0 의 두 가지 값을 가질 수 있음
  
 위 그림을 수식으로 나타내면 다음과 같음
 
+<img src="https://latex.codecogs.com/svg.latex?y=\begin{cases}0\left( w_{1}x_{1}+w_{2}x_{2}\leq \theta \right) \\ 1\left( w_{1}x_{1}+w_{2}x_{2} >\theta \right) \end{cases}" />
+
 ![식 2-1](https://latex.codecogs.com/svg.latex?y=\begin{cases}0\left( w_{1}x_{1}+w_{2}x_{2}\leq \theta \right) \\ 1\left( w_{1}x_{1}+w_{2}x_{2} >\theta \right) \end{cases})
 
 y=\begin{cases}0\left( w_{1}x_{1}+w_{2}x_{2}\leq \theta \right) \\ 1\left( w_{1}x_{1}+w_{2}x_{2} >\theta \right) \end{cases}
