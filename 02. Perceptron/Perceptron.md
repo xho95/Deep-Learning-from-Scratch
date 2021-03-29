@@ -36,8 +36,10 @@ Perceptron 을 활용한 문제를 살펴봄
 ### 2.2.1 AND 게이트
  
 AND 게이트는 두 입력이 모두 1일 때만 1을 출력하고, 그 외에는 0을 출력함
- 
-AND 게이트 진리표 (그림 2-2)
+
+![AND 게이트 진리표](https://cdn.instrumentationtools.com/wp-content/uploads/2018/10/Logic-Gates-and-Truth-tables.png)
+
+(그림 2-2)
  
 이 AND 게이트를 Perceptron 으로 표현하려면, 진리표대로 작동하는 w1, w2, Θ 를 정하면 됨
 이 조건을 만족하는 매개 변수 조합은 무한하나, 하나를 정하면 됨
@@ -46,14 +48,16 @@ AND 게이트 진리표 (그림 2-2)
  
 NAND 게이트는 Not AND 를 의미하며, AND 게이트의 출력을 뒤집은 것처럼 동작함
 x1, x2 가 모두 1일 때만 0을 출력하고, 그 외에는 1을 출력함
- 
-NAND 게이트 진리표 (그림 2-3)
+
+![NAND 게이트 진리표](https://cdn.instrumentationtools.com/wp-content/uploads/2018/10/Universal-Logic-Gates-and-Truth-tables.png) 
+
+(그림 2-3)
  
 NAND 게이트의 매개 변수는 AND 게이트 매개 변수의 부호를 반전하기만 하면 됨
  
 OR 게이트는 입력 신호 중 하나 이상이 1이면 출력이 1이 되는 논리 회로
- 
-OR 게이트 진리표 (그림 2-4)
+
+![AND 게이트 진리표](https://cdn.instrumentationtools.com/wp-content/uploads/2018/10/Logic-Gates-and-Truth-tables.png)
  
 > Perceptron 의 매개 변수를 정하는 것은 컴퓨터가 아니라 인간임
 >
@@ -194,7 +198,9 @@ XOR 게이트를 생각하도록 함
 XOR 게이트는 배타적 논리합이라는 논리 회로임
 x1, x2 중 한 쪽이 1일 때만 1을 출력함
  
-XOR 게이트의 진리표 (그림-2-5)
+![XOR 게이트의 진리표](https://cdn.instrumentationtools.com/wp-content/uploads/2018/10/Logic-Gates-and-Truth-tables.png)
+
+(그림-2-5)
  
 지금까지의 Perceptron 으로는 XOR 게이트를 구현할 수 없음
  
@@ -203,20 +209,24 @@ OR 게이트의 동작을 시각적으로 생각하도록 함
 이 때의 Perceptron 은 다음 식과 같음
  
 <img src="https://latex.codecogs.com/svg.latex?y=\begin{cases}0\left(&space;-0.5&plus;x_{1}&plus;x_{2}\leq&space;0\right)&space;\\&space;1\left(&space;-0.5&plus;x_{1}&plus;x_{2}&space;>0\right)&space;\end{cases}" title="y=\begin{cases}0\left( -0.5+x_{1}+x_{2}\leq 0\right) \\ 1\left( -0.5+x_{1}+x_{2} >0\right) \end{cases}" />
- 
+
 (식 2-3)
  
 위의 Perceptron 은 직선으로 나뉜 두 영역을 만듬
 직선의 한쪽 영역은 1을 출력하고, 다른 한 쪽은 0을 출력함
- 
-Perceptron 의 시각화 (그림 2-6)
+
+![Perceptron 의 시각화](https://i.stack.imgur.com/epSZC.png)
+
+(그림 2-6)
  
 OR 게이트를 만들려면 (그림 2-6) 의 ◯ 과 △을 직선으로 나눠야 함
 그림의 직선은 네 점을 제대로 나누고 있음
  
 XOR 게이트는 직선 하나로 ◯ 과 △을 나누는 영역을 만들 수 없음
- 
-직선의 제약 (그림 2-7)
+
+![직선의 제약](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZf0vxDMiiYFfb-j7kn4mSkZTeLwrpAO4kOPF3RxtuFM7EMR4veDn03YGLtOq86K5hVNg&usqp=CAU)
+
+(그림 2-7)
  
 ### 2.4.2 션형과 비선형
  
