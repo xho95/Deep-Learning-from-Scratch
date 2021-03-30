@@ -1,6 +1,6 @@
 # 2. Perceptron
 
-* Perceptron : 1957년 Frank Rosenblatt 가 고안한 알고리즘
+* Perceptron : 1957년 Frank Rosenblatt 가 고안한 알고리즘[^book]
 * Perceptron 은 신경망의 기원이 되는 알고리즘
  
 ## 2.1 Perceptron 이란?
@@ -21,7 +21,7 @@
 * 뉴런 신호의 총합이 정해진 한계를 넘을 때만 1을 출력함 : 뉴런의 활성화
 * 이 한계를 임계값 (threshold) 이라 하며 `Θ` (theta) 로 나타냄
  
-- 위 그림을 수식으로 나타내면 다음과 같음
+- 위 그림을 수식으로 나타내면 다음과 같음[^equation]
 
 > <img src="https://latex.codecogs.com/svg.latex?y=\begin{cases}0\left(&space;w_{1}x_{1}&plus;w_{2}x_{2}\leq&space;\theta&space;\right)&space;\\&space;1\left(&space;w_{1}x_{1}&plus;w_{2}x_{2}&space;>\theta&space;\right)&space;\end{cases}" title="y=\begin{cases}0\left( w_{1}x_{1}+w_{2}x_{2}\leq \theta \right) \\ 1\left( w_{1}x_{1}+w_{2}x_{2} >\theta \right) \end{cases}" />
 > 
@@ -350,5 +350,5 @@ XOR(1, 1)
 
 ### 참고 자료
 
-* [밑바닥부터 시작하는 딥러닝](https://fliphtml5.com/hkuy/riaq/basic)
-* [Online LaTex Equation Editor](https://www.codecogs.com/latex/eqneditor.php)
+* [^book]: 여기 정리한 내용들은 한빛 출판사에서 출판한 [밑바닥부터 시작하는 딥러닝](https://fliphtml5.com/hkuy/riaq/basic) 이라는 책의 내용을 정리한 것입니다.
+* [^equation]: 본문에 있는 수식들은 'LaTex' 수식을 [Online LaTex Equation Editor](https://www.codecogs.com/latex/eqneditor.php) 를 사용하여 웹에서 볼 수 있도록 한 것입니다.
