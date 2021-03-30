@@ -235,48 +235,57 @@ OR(1, 1)
 >
 > 그림 2-7
  
-### 2.4.2 션형과 비선형
+### 2.4.2 선형과 비선형
  
-직선 하나로 (그림 2-7) 의 ◯ 과 △ 을 나누기란 불가능함
-하지만 직선이라는 제약을 없애면 가능함
+* 직선으로는 ◯ 과 △ 을 나눌 수 없지만, 직선이라는 제약을 없애면 가능함
  
-곡선은 가능 (그림 2-7)
+> ![곡선은 가능](https://www.allaboutcircuits.com/uploads/articles/advanced-machine-learning-with-the-multilayer-perceptron_rk_aac_image5.jpg)
+>
+> 그림 2-7
  
-Perceptron 은 직선 하나로 나눈 영역만 표현할 수 있음
-(그림 2-8) 같은 곡선 영역을 비선형 (Nonlinear) 영역, 직선 영역을 선형 (Linear) 영역이라 함
+* Perceptron 의 한계: 직선 하나로 나눈 영역만 표현
+* '그림 2-8' 같은 곡선 영역 = 비선형 (Nonlinear) 영역, 직선 영역 = 선형 (Linear) 영역
  
 ## 2.5 다층 Perceptron 이 충돌한다면
  
-Perceptron 으로는 XOR 게이트를 표현할 수 없음
-하지만, Perceptron 은 층을 쌓아 다층 (Multi-layer) Perceptron 을 만들 수 있음
-층을 하나 더 쌓아서 XOR 를 표현하도록 함
+* Perceptron 으로는 XOR 게이트를 표현할 수 없음
+* 하지만, Perceptron 은 층을 쌓아 **다층 (Multi-layer) Perceptron** 을 만들 수 있음
+* 층을 하나 더 쌓아서 XOR 를 표현
  
 ### 2.5.1 기존 게이트 조합하기
  
-기존 AND, NAND, OR 게이트를 조합하여 XOR 게이트를 만들 수 있음
- 
-AND, NAND, OR 게이트 (그림 2-9)
- 
-AND, NAND, OR 게이트를 조합하여 XOR 게이트 만드는 문제 (그림 2-10)
+* XOR 게이트 문제를 다른 관점에서 생각
+* XOR 게이트를 만드는 방법은 다양함 : AND, NAND, OR 조합으로 XOR 게이트를 만들 수 있음
+
+> ![AND, NAND, OR 게이트](https://lh3.googleusercontent.com/proxy/GeHz6crQXOwfx0NsECFbwOLxRxGYLWjQTNMhIwfqlGtzW0Yf7Nq5h9I7mvZVjhlRSkX_oU2eZzarIy3gqDMnM3AAXzipr6-5oUgLxtXC4EAFml5Drc9qczf0NKHRFg)
+> 
+> 그림 2-9: AND, NAND, OR 게이트
+
+* AND, NAND, OR 게이트 조합 방법을 생각
+
+> ![XOR 게이트](https://lh3.googleusercontent.com/proxy/XecFpHpoyribt9UiO2BEVFxEJ5pa_fUTNs70pkjbod-pXNgd1TRXgLWXDlFMCYj7p3tZhWF3JSbWovkA062GKQt8GoRThT1rTA0Yv31d8HbMTmq2lsXjoX2EGmk)
+>
+> 그림 2-10
  
 다음 같은 조합이면 XOR 게이트를 구현할 수 있음
  
-AND, NAND, OR 게이트를 조합하여 XOR 게이트 만드는 정답 (그림 2-11)
+* `x1`, `x2`: 입력 신호, `y`: 출력 신호
+* `x1`, `x2`: NAND 와 OR 게이트의 입력
+* NAND 와 OR 의 출력: AND 게이트의 입력
+
+> ![AND, NAND, OR 조합](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSivBH0BtB1McAzlYHznAvViQFFxkVtANCo8A&usqp=CAU) 
+>
+> 그림 2-11: AND, NAND, OR 조합으로 만든 XOR 게이트
  
-* x1, x2 가 입력 신호, y 가 출력 신호
-* x1, x2 는 NAND 와 OR 게이트의 입력
-* NAND 와 OR 의 출력이 AND 게이트의 입력으로 이어짐
+* '그림 2-11' 이 XOR 인지 진리표로 확인: `s1` 은 NAND 출력, `s2` 는 OR 출력
+* `x1`, `x2`, `y` 에 주목하면 XOR 출력과 같음
+
+> 그림 2-12: XOR 게이트 진리표
  
-진리표로 정말 XOR 인지 확임
- 
-XOR 게이트 진리표 (그림 2-12)
- 
-* s1: NAND 출력
-* s2: OR 출력
- 
-x1, x2, y 에 주목하면 XOR 의 출력과 같음
- 
-지금까지 구현한 AND, NAND, OR 함수를 사용하면 다음같이 쉽게 구현할 수 있음
+### 2.5.2 XOR 게이트 구현하기
+
+* '그림 2-11' 로 조합한 XOR 게이트 구현
+* 정의한 AND, NAND, OR 함수를 사용하여 구현
 
 ```swift
 func XOR(_ x1: Double, _ x2: Double) -> Double {
@@ -292,28 +301,52 @@ XOR(0, 1)
 XOR(1, 1)
 ```
 
-지금 구현한 XOR 를 뉴런을 이용한 퍼셉트론으로 표현다면 다음과 같음
+* 구현한 XOR 를 뉴런을 이용한 Perceptron 으로 표현하면 다음과 같음
+
+> ![XOR Perceptron](https://i.stack.imgur.com/z9iMR.png) 
+> 
+> 그림 2-13: XOR 의 Perceptron
  
-XOR 의 Perceptron (그림 2-13)
- 
-XOR 는 (그림 2-13) 같은 다층 구조의 네트워크 임
-층이 여러 개인 Perceptron 을 다층 Perceptron 이라 함
- 
-단층 Perceptron 으로 표현하지 못한 것을 층을 하나 늘려 구현할 수 있음
- 
-### 2.5.2 XOR 게이트 구현하기
+* XOR 는 '그림 2-13' 같은 다층 구조의 네트워크: 왼쪽부터 0층, 1층, 2층
+* '그림 2-13' 의 Perceptron 은 이전 Perceptron 들과 형태가 다름
+* AND, OR: 단층 Perceptron, XOR: 다층 Perceptron - 층이 여러 개인 Perceptron
+
+> '그림 2-13' 의 Perceptron 은 가충치를 가진 층이 2개이므로 '2층 (2-layer) Perceptron 임 \
+> 책에 따라 이를 '3층 Perceptron' 이라고 하는 곳도 있음
+
+* 2층 Perceptron 에서는 0층에서 1층으로 신호를 전달하고, 이어서 1층에서 2층으로 신호를 전달함
+    1. 0층의 두 뉴런이 입력 신호를 받아 1층의 뉴런으로 신호를 보냄
+    2. 1층의 뉴런이 2층의 뉴런으로 신호를 보내고, 2층의 뉴런은 이 입력 신호를 바탕으로 y 출력
+
+* 2층 Perceptron 동작을 공장 조립 라인에 비유할 수 있음: 1층 부품을 2층 작업자에 전달
+* 이 처럼 XOR 게이트 Perceptron 에서는 작업자들 사이에 '부품을 전달' 하는 일이 이루어짐
+
+* '2층 Perceptron' 으로 XOR 게이트를 구현
+* 단층 Perceptron 으로 표현하지 못한 것을 층을 하나 늘려 구현함
+* Perceptron 은 층을 쌓아서 다양한 것을 표현할 수 있음
  
 ## 2.6 NAND 에서 컴퓨터까지
- 
+
+* 다층 Perceptron 은 보다 복잡한 회로를 만들 수 있음
+* 덧셈을 처리하는 가산기, 2진수를 10진수로 변환하는 인코더, 그리고 컴퓨터도 표현할 수 있음
+* 컴퓨터는 NAND 게이트만으로 재현할 수 있음: 그리고 NAND 게이트는 Perceptron 으로 만들 수 있음
+
+* 이론상 2층 Perceptron 이면 컴퓨터를 만들 수 있음
+* 2층 Perceptron, 즉 비선형 Sigmoid 함수를 활성 함수로 사용하면 임의의 함수를 표현할 수 있음
+* 하지만 2층 Perceptron 구조에서 가중치 설정만으로 컴퓨터를 만들기는 너무 어려움
+* Perceptron 으로 표현하는 컴퓨터도 여러 층을 겹겹이 겹친 구조로 만드는 방향이 자연스러움
+
 ## 2.7 정리
- 
-* Perceptron 은 입출력을 가진 알고리즘이다. 입력을 주면 정해진 규칙에 따른 값을 출력한다
-* Perceptron 에서는 '가중치 (Weight)' 와 '편향 (Bias)' 를 매개 변수로 설정한다
-* Perceptron 으로 AND, OR 게이트 등의 논리 회로를 표현할 수 있다
-* XOR 게이트는 단층 Perceptron 으로 표현할 수 없다
-* 2층 Perceptron 을 사용하면 XOR 게이트를 표현할 수 있다
-* 단층 Perceptron 은 선형 영역만 표현할 수 있고, 다층 Perceptron 은 비선형 영역도 표현할 수 있다
-* 다층 Perceptron 은 (이론상) 컴퓨터도 표현할 수 있다
+
+* Perceptron 은 다음 장에서 배울 신경망의 기초
+* 이번 장에서 배운 것
+    1. Perceptron 은 입출력을 가진 알고리즘이다. 입력을 주면 정해진 규칙에 따른 값을 출력한다
+    2. Perceptron 에서는 '가중치 (Weight)' 와 '편향 (Bias)' 를 매개 변수로 설정한다
+    3. Perceptron 으로 AND, OR 게이트 등의 논리 회로를 표현할 수 있다
+    4. XOR 게이트는 단층 Perceptron 으로 표현할 수 없다
+    5. 2층 Perceptron 을 사용하면 XOR 게이트를 표현할 수 있다
+    6. 단층 Perceptron 은 선형 영역만 표현할 수 있고, 다층 Perceptron 은 비선형 영역도 표현할 수 있다
+    7. 다층 Perceptron 은 (이론상) 컴퓨터도 표현할 수 있다
 
 ### 참고 자료
 
