@@ -8,8 +8,8 @@
 * Perceptron 은 다수의 신호를 입력받아 하나의 신호를 출력함
 * Perceptron 신호는 1/0 의 두 가지 값을 가질 수 있음
  
-![Perceptron with 2-inputs](https://www.mathworks.com/matlabcentral/mlc-downloads/downloads/cf83ad39-f286-409c-81e5-6ab72e547cda/7d310d1c-dda4-4828-b9c9-fb0260a15c0b/images/screenshot.jpg) 
-
+> ![Perceptron with 2-inputs](https://www.mathworks.com/matlabcentral/mlc-downloads/downloads/cf83ad39-f286-409c-81e5-6ab72e547cda/7d310d1c-dda4-4828-b9c9-fb0260a15c0b/images/screenshot.jpg) 
+> 
 > 그림 2-1: 입력이 2 개인 퍼셉트론
 >
 > `x1`, `x2` : 입력 신호 \
@@ -23,8 +23,8 @@
  
 * 위 그림을 수식으로 나타내면 다음과 같음
 
-<img src="https://latex.codecogs.com/svg.latex?y=\begin{cases}0\left(&space;w_{1}x_{1}&plus;w_{2}x_{2}\leq&space;\theta&space;\right)&space;\\&space;1\left(&space;w_{1}x_{1}&plus;w_{2}x_{2}&space;>\theta&space;\right)&space;\end{cases}" title="y=\begin{cases}0\left( w_{1}x_{1}+w_{2}x_{2}\leq \theta \right) \\ 1\left( w_{1}x_{1}+w_{2}x_{2} >\theta \right) \end{cases}" />
-
+> <img src="https://latex.codecogs.com/svg.latex?y=\begin{cases}0\left(&space;w_{1}x_{1}&plus;w_{2}x_{2}\leq&space;\theta&space;\right)&space;\\&space;1\left(&space;w_{1}x_{1}&plus;w_{2}x_{2}&space;>\theta&space;\right)&space;\end{cases}" title="y=\begin{cases}0\left( w_{1}x_{1}+w_{2}x_{2}\leq \theta \right) \\ 1\left( w_{1}x_{1}+w_{2}x_{2} >\theta \right) \end{cases}" />
+> 
 > 식 2-1
  
 * Perceptron 은 복수의 입력 신호에 가중치를 부여함
@@ -39,8 +39,8 @@
  
 * AND 게이트: 두 입력이 모두 1 일 때만 1 을 출력, 그 외는 0 을 출력
 
-![AND 게이트 진리표](https://cdn.instrumentationtools.com/wp-content/uploads/2018/10/Logic-Gates-and-Truth-tables.png)
-
+> ![AND 게이트 진리표](https://cdn.instrumentationtools.com/wp-content/uploads/2018/10/Logic-Gates-and-Truth-tables.png)
+> 
 > 그림 2-2: AND 게이트의 진리표
  
 * AND 게이트를 Perceptron 으로 표현하려면, 진리표대로 작동하는 `w1`, `w2`, `Θ` 를 정하면 됨
@@ -51,16 +51,16 @@
 * NAND 게이트: Not AND 라는 의미, AND 게이트의 출력을 뒤집은 것처럼 동작함
 * `x1`, `x2` 가 모두 1 일 때만 0 을 출력, 그 외는 1 을 출력
 
-![NAND 게이트 진리표](https://cdn.instrumentationtools.com/wp-content/uploads/2018/10/Universal-Logic-Gates-and-Truth-tables.png) 
-
+> ![NAND 게이트 진리표](https://cdn.instrumentationtools.com/wp-content/uploads/2018/10/Universal-Logic-Gates-and-Truth-tables.png) 
+> 
 > 그림 2-3: NAND 게이트의 진리표
  
 * NAND 게이트의 매개 변수는 AND 게이트 매개 변수의 부호를 반전하면 됨
  
 * OR 게이트: 입력 신호 중 하나 이상이 1 이면 출력이 1 이 되는 논리 회로
 
-![AND 게이트 진리표](https://cdn.instrumentationtools.com/wp-content/uploads/2018/10/Logic-Gates-and-Truth-tables.png)
-
+> ![AND 게이트 진리표](https://cdn.instrumentationtools.com/wp-content/uploads/2018/10/Logic-Gates-and-Truth-tables.png)
+> 
 > 그림 2-4: OR 게이트의 진리표
   
 > Perceptron 의 매개 변수를 정하는 것은 컴퓨터가 아니라 인간임 \
@@ -102,8 +102,8 @@ AND_1(1, 1)
  
 * 앞에서 구현한 AND 게이트 수정: `Θ` 를 `-b` 로 치환하여 다음 식 만듦
 
-<img src="https://latex.codecogs.com/svg.latex?y=\begin{cases}0\left(&space;b&plus;w_{1}x_{1}&plus;w_{2}x_{2}\leq&space;0\right)&space;\\&space;1\left(&space;b&plus;w_{1}x_{1}&plus;w_{2}x_{2}&space;>0\right)&space;\end{cases}\" title="y=\begin{cases}0\left( b+w_{1}x_{1}+w_{2}x_{2}\leq 0\right) \\ 1\left( b+w_{1}x_{1}+w_{2}x_{2} >0\right) \end{cases}\" />
- 
+> <img src="https://latex.codecogs.com/svg.latex?y=\begin{cases}0\left(&space;b&plus;w_{1}x_{1}&plus;w_{2}x_{2}\leq&space;0\right)&space;\\&space;1\left(&space;b&plus;w_{1}x_{1}&plus;w_{2}x_{2}&space;>0\right)&space;\end{cases}\" title="y=\begin{cases}0\left( b+w_{1}x_{1}+w_{2}x_{2}\leq 0\right) \\ 1\left( b+w_{1}x_{1}+w_{2}x_{2} >0\right) \end{cases}\" />
+>  
 > 식 2-2
 > 
 > `b` : 편향 (Bias) \
@@ -205,8 +205,8 @@ OR(1, 1)
  
 * XOR 게이트: '배타적 논리합' 이라는 논리 회로, `x1`, `x2` 중 한 쪽이 1 일 때만 1 을 출력
  
-![XOR 게이트의 진리표](https://cdn.instrumentationtools.com/wp-content/uploads/2018/10/Logic-Gates-and-Truth-tables.png)
-
+> ![XOR 게이트의 진리표](https://cdn.instrumentationtools.com/wp-content/uploads/2018/10/Logic-Gates-and-Truth-tables.png)
+> 
 > 그림-2-5: XOR 게이트의 진리표
  
 * 지금까지의 Perceptron 으로는 XOR 게이트를 구현할 수 없음: 시각적으로 이해
