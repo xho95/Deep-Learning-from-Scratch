@@ -8,9 +8,9 @@
 * Perceptron 은 다수의 신호를 입력받아 하나의 신호를 출력함
 * Perceptron 신호는 1/0 의 두 가지 값을 가질 수 있음
  
-> ![Perceptron with 2-inputs](https://www.mathworks.com/matlabcentral/mlc-downloads/downloads/cf83ad39-f286-409c-81e5-6ab72e547cda/7d310d1c-dda4-4828-b9c9-fb0260a15c0b/images/screenshot.jpg) 
+> ![입력이 2개인 Perceptron](https://images4.programmersought.com/916/2f/2f55e51a5433b190fd5cbca3807a47c4.png) 
 > 
-> 그림 2-1: 입력이 2 개인 퍼셉트론
+> 그림 2-1: 입력이 2개인 Perceptron
 >
 > `x1`, `x2` : 입력 신호 \
 > `y` : 출력 신호 \
@@ -39,7 +39,7 @@
  
 * AND 게이트: 두 입력이 모두 1 일 때만 1 을 출력, 그 외는 0 을 출력
 
-> ![AND 게이트 진리표](https://cdn.instrumentationtools.com/wp-content/uploads/2018/10/Logic-Gates-and-Truth-tables.png)
+> ![AND 게이트 진리표](https://images3.programmersought.com/702/b9/b9ced1c907541af31da3359a36962d9e.png)
 > 
 > 그림 2-2: AND 게이트의 진리표
  
@@ -51,7 +51,7 @@
 * NAND 게이트: Not AND 라는 의미, AND 게이트의 출력을 뒤집은 것처럼 동작함
 * `x1`, `x2` 가 모두 1 일 때만 0 을 출력, 그 외는 1 을 출력
 
-> ![NAND 게이트 진리표](https://cdn.instrumentationtools.com/wp-content/uploads/2018/10/Universal-Logic-Gates-and-Truth-tables.png) 
+> ![NAND 게이트 진리표](https://images2.programmersought.com/497/47/471d56effc827cd0fe2d7a01ccf1a8e9.png) 
 > 
 > 그림 2-3: NAND 게이트의 진리표
  
@@ -59,7 +59,7 @@
  
 - OR 게이트: 입력 신호 중 하나 이상이 1 이면 출력이 1 이 되는 논리 회로
 
-> ![AND 게이트 진리표](https://cdn.instrumentationtools.com/wp-content/uploads/2018/10/Logic-Gates-and-Truth-tables.png)
+> ![OR 게이트 진리표](https://images1.programmersought.com/166/b8/b8c01c85fb73a21c3472ba525480ec56.png)
 > 
 > 그림 2-4: OR 게이트의 진리표
   
@@ -205,7 +205,7 @@ OR(1, 1)
  
 * XOR 게이트: '배타적 논리합' 이라는 논리 회로, `x1`, `x2` 중 한 쪽이 1 일 때만 1 을 출력
  
-> ![XOR 게이트의 진리표](https://cdn.instrumentationtools.com/wp-content/uploads/2018/10/Logic-Gates-and-Truth-tables.png)
+> ![XOR 게이트의 진리표](https://images1.programmersought.com/105/2b/2beded6c1a58923b814e72a3791cbec1.png)
 > 
 > 그림-2-5: XOR 게이트의 진리표
  
@@ -222,7 +222,7 @@ OR(1, 1)
 * '식 2-3' 의 Perceptron 은 직선으로 나뉜 두 영역을 만듦
 * 직선 한 쪽은 1 출력, 다른 쪽은 0 을 출력
 
-![Perceptron 의 시각화](https://i.stack.imgur.com/epSZC.png)
+![Perceptron 의 시각화](https://images2.programmersought.com/267/48/48713191222dcb2c23698847df5825e3.png)
 
 > 그림 2-6: Perceptron 의 시각화
  
@@ -231,7 +231,7 @@ OR(1, 1)
  
 - XOR 게이트 동작: 직선 하나로 ◯ 과 △ 을 나눌 수 없음
 
-> ![직선의 제약](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZf0vxDMiiYFfb-j7kn4mSkZTeLwrpAO4kOPF3RxtuFM7EMR4veDn03YGLtOq86K5hVNg&usqp=CAU)
+> ![직선의 제약](https://images2.programmersought.com/373/e5/e545d736e4f633eb07d18ba636604add.png)
 >
 > 그림 2-7
  
@@ -239,7 +239,7 @@ OR(1, 1)
  
 * 직선으로는 ◯ 과 △ 을 나눌 수 없지만, 직선이라는 제약을 없애면 가능함
  
-> ![곡선은 가능](https://www.allaboutcircuits.com/uploads/articles/advanced-machine-learning-with-the-multilayer-perceptron_rk_aac_image5.jpg)
+> ![곡선은 가능](https://images4.programmersought.com/886/3e/3ec4619b0c43d6de05d62e680a2f73e6.png)
 >
 > 그림 2-7
  
@@ -257,13 +257,13 @@ OR(1, 1)
 * XOR 게이트 문제를 다른 관점에서 생각
 * XOR 게이트를 만드는 방법은 다양함 : AND, NAND, OR 조합으로 XOR 게이트를 만들 수 있음
 
-> ![AND, NAND, OR 게이트](https://lh3.googleusercontent.com/proxy/GeHz6crQXOwfx0NsECFbwOLxRxGYLWjQTNMhIwfqlGtzW0Yf7Nq5h9I7mvZVjhlRSkX_oU2eZzarIy3gqDMnM3AAXzipr6-5oUgLxtXC4EAFml5Drc9qczf0NKHRFg)
+> ![AND, NAND, OR 게이트](https://images4.programmersought.com/925/81/818f02e8b93ac95ea222f9d491cb01f5.png)
 > 
 > 그림 2-9: AND, NAND, OR 게이트
 
 * AND, NAND, OR 게이트 조합 방법을 생각
 
-> ![XOR 게이트](https://lh3.googleusercontent.com/proxy/XecFpHpoyribt9UiO2BEVFxEJ5pa_fUTNs70pkjbod-pXNgd1TRXgLWXDlFMCYj7p3tZhWF3JSbWovkA062GKQt8GoRThT1rTA0Yv31d8HbMTmq2lsXjoX2EGmk)
+> ![XOR 게이트](https://images3.programmersought.com/533/08/0824606551806665d785234b7d315c3d.png)
 >
 > 그림 2-10
  
@@ -273,13 +273,15 @@ OR(1, 1)
 * `x1`, `x2`: NAND 와 OR 게이트의 입력
 * NAND 와 OR 의 출력: AND 게이트의 입력
 
-> ![AND, NAND, OR 조합](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSivBH0BtB1McAzlYHznAvViQFFxkVtANCo8A&usqp=CAU) 
+> ![AND, NAND, OR 조합](https://images3.programmersought.com/543/36/3611fb320cd886693514f8365bc113e7.png) 
 >
 > 그림 2-11: AND, NAND, OR 조합으로 만든 XOR 게이트
  
 * '그림 2-11' 이 XOR 인지 진리표로 확인: `s1` 은 NAND 출력, `s2` 는 OR 출력
 * `x1`, `x2`, `y` 에 주목하면 XOR 출력과 같음
 
+>![XOR 게이트 진리표](https://images3.programmersought.com/659/a8/a8dd6a09ca7904f74a36ce33e316a7c3.png)
+>
 > 그림 2-12: XOR 게이트 진리표
  
 ### 2.5.2 XOR 게이트 구현하기
@@ -303,7 +305,7 @@ XOR(1, 1)
 
 * 구현한 XOR 를 뉴런을 이용한 Perceptron 으로 표현하면 다음과 같음
 
-> ![XOR Perceptron](https://i.stack.imgur.com/z9iMR.png) 
+> ![XOR Perceptron](https://images3.programmersought.com/543/36/3611fb320cd886693514f8365bc113e7.png) 
 > 
 > 그림 2-13: XOR 의 Perceptron
  
@@ -352,3 +354,4 @@ XOR(1, 1)
 
 * [^book]: 여기 정리한 내용들은 한빛 출판사에서 출판한 [밑바닥부터 시작하는 딥러닝](https://fliphtml5.com/hkuy/riaq/basic) 이라는 책의 내용을 정리한 것입니다.
 * [^equation]: 본문에 있는 수식들은 'LaTex' 수식을 [Online LaTex Equation Editor](https://www.codecogs.com/latex/eqneditor.php) 를 사용하여 웹에서 볼 수 있도록 한 것입니다.
+* 이미지들은 []() 에 있는 링크를 연결했는데, 여기에 정보들이 불법은 아닌지 의심됩니다.
