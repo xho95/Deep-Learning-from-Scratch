@@ -1,19 +1,20 @@
 # 2. Perceptron
 
-Perceptron : 1957년 Frank Rosenblatt 가 고안한 알고리즘
-Perceptron 은 신경망의 기원이 되는 알고리즘
+* Perceptron : 1957년 Frank Rosenblatt 가 고안한 알고리즘
+* Perceptron 은 신경망의 기원이 되는 알고리즘
  
 ## 2.1 Perceptron 이란?
  
-Perceptron 은 다수의 신호를 입력받아 하나의 신호를 출력함
-Perceptron 신호는 1/0 의 두 가지 값을 가질 수 있음
+* Perceptron 은 다수의 신호를 입력받아 하나의 신호를 출력함
+* Perceptron 신호는 1/0 의 두 가지 값을 가질 수 있음
  
-![Perceptron with 2-inputs](https://www.mathworks.com/matlabcentral/mlc-downloads/downloads/cf83ad39-f286-409c-81e5-6ab72e547cda/7d310d1c-dda4-4828-b9c9-fb0260a15c0b/images/screenshot.jpg) (그림 2-1)
- 
-* x1, x2: 입력 신호
-* y: 출력 신호
-* w1, w2: 가중치 (Weight)
-* 원: 뉴런 or 노드
+![Perceptron with 2-inputs](https://www.mathworks.com/matlabcentral/mlc-downloads/downloads/cf83ad39-f286-409c-81e5-6ab72e547cda/7d310d1c-dda4-4828-b9c9-fb0260a15c0b/images/screenshot.jpg) 
+
+> 그림 2-1 \
+> x1, x2: 입력 신호 \
+> y: 출력 신호 \
+> w1, w2: 가중치 (Weight) \
+> 원: 뉴런 or 노드
  
 입력 신호가 뉴런에 보내질 때 고유한 가중치가 곱해짐
 뉴런 신호의 총합이 정해진 한계를 넘을 때만 1을 출력함 (뉴런의 활성화)
