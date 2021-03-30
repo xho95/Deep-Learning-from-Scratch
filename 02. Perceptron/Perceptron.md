@@ -305,7 +305,7 @@ XOR(1, 1)
 
 * 구현한 XOR 를 뉴런을 이용한 Perceptron 으로 표현하면 다음과 같음
 
-> ![XOR Perceptron](https://images3.programmersought.com/543/36/3611fb320cd886693514f8365bc113e7.png) 
+> ![XOR Perceptron](https://i.stack.imgur.com/z9iMR.png) 
 > 
 > 그림 2-13: XOR 의 Perceptron
  
