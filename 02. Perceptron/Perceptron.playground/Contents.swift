@@ -1,5 +1,5 @@
 /*:
- # Table of Contents
+ # Perceptron
 
  * Perceptron : 1957년 Frank Rosenblatt 가 고안한 알고리즘
  * Perceptron 은 신경망의 기원이 되는 알고리즘
