@@ -353,8 +353,26 @@ print(numerical_diff(function_tmp2, 4.0))   # 7.999999999999119
 
 - 학습률 (learning rate) : 한 번의 학습으로 얼만큼 학습해야 할지, 즉 매개 변수 값을 얼마나 갱신할지를 정하는 것
 
+<img src="https://latex.codecogs.com/svg.latex?{x_0&space;=&space;x_0&space;-&space;\eta&space;\frac{\partial&space;f}{\partial&space;x_0}}&space;\\&space;{x_1&space;=&space;xI&space;-&space;\eta&space;\frac{\partial&space;f}{\partial&space;x_1}}" title="{x_0 = x_0 - \eta \frac{\partial f}{\partial x_0}} \\ {x_1 = xI - \eta \frac{\partial f}{\partial x_1}}" />
+
 * 학습률 값은 '0.01' 이나 '0.001' 등으로 미리 정해둠 
 * 이 값이 너무 크거나 작으면 '좋은 장소' 를 찾아갈 수 없음
+
+```python
+# code
+```
+
+* 하이퍼 파라미터 (hyper parameter) : '학습률' 같은 매개 변수 - 사람이 직접 설정해야 하는 매개 변수
+
+### 4.4.2 신경망에서의 기울기
+
+* 신경망 학습에서의 기울기 : 가중치 매개 변수에 대한 손실 함수의 기울기
+
+<img src="https://latex.codecogs.com/svg.latex?W&space;=&space;\begin{bmatrix}&space;w_{11}&space;&&space;w_{21}&space;&&space;w_{31}&space;\\&space;w_{12}&space;&&space;w_{22}&space;&&space;w_{32}&space;\end{bmatrix}&space;\\&space;\frac{\partial&space;L}{\partial&space;W}=\begin{bmatrix}&space;\frac{\partial&space;L}{\partial&space;W_{11}}&space;&&space;\frac{\partial&space;L}{\partial&space;W_{21}}&space;&&space;\frac{\partial&space;L}{\partial&space;W_{31}}&space;\\&space;\frac{\partial&space;L}{\partial&space;W_{12}}&space;&&space;\frac{\partial&space;L}{\partial&space;W_{22}}&space;&&space;\frac{\partial&space;L}{\partial&space;W_{32}}&space;\end{bmatrix}" title="W = \begin{bmatrix} w_{11} & w_{21} & w_{31} \\ w_{12} & w_{22} & w_{32} \end{bmatrix} \\ \frac{\partial L}{\partial W}=\begin{bmatrix} \frac{\partial L}{\partial W_{11}} & \frac{\partial L}{\partial W_{21}} & \frac{\partial L}{\partial W_{31}} \\ \frac{\partial L}{\partial W_{12}} & \frac{\partial L}{\partial W_{22}} & \frac{\partial L}{\partial W_{32}} \end{bmatrix}" />
+
+```python
+
+```
 
 
 

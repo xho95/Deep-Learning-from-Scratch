@@ -20,6 +20,7 @@ def numeric_gradient(f, x):
     
     return grad
 
+"""
 a = numeric_gradient(function_2, np.array([3.0, 4.0]))
 b = numeric_gradient(function_2, np.array([0.0, 2.0]))
 c = numeric_gradient(function_2, np.array([3.0, 0.0]))
@@ -27,3 +28,26 @@ c = numeric_gradient(function_2, np.array([3.0, 0.0]))
 print(a)
 print(b)
 print(c)
+"""
+
+def gradient_descent(f, init_x, lr=0.01, step_num=100):
+    x = init_x 
+
+    for i in range(step_num):
+        grad = numeric_gradient(f, x)
+        x -= lr * grad
+    return x
+
+"""
+init_x = np.array([-3.0, 4.0])
+result = gradient_descent(function_2, init_x=init_x, lr=0.1, step_num=100)
+print(result)
+
+init_x = np.array([-3.0, 4.0])
+too_large_lr = gradient_descent(function_2, init_x=init_x, lr=10.0, step_num=100)
+print(too_large_lr)
+
+init_x = np.array([-3.0, 4.0])
+too_small_lr = gradient_descent(function_2, init_x=init_x, lr=1e-10, step_num=100)
+print(too_small_lr)
+"""
