@@ -330,5 +330,34 @@ print(numerical_diff(function_tmp2, 4.0))   # 7.999999999999119
 ## 4.4 기울기
 
 * <img src="https://latex.codecogs.com/gif.latex?x_0" title="x_0" /> 과 <img src="https://latex.codecogs.com/gif.latex?x_1" title="x_1" /> 의 편미분을 동시에 계산하고 싶음
-* 기울기 (gradient) : <img src="https://latex.codecogs.com/gif.latex?\left&space;(&space;\frac{\partial&space;f}{\partial&space;x_0},&space;\frac{\partial&space;f}{\partial&space;x_1}&space;\right&space;)" title="\left ( \frac{\partial f}{\partial x_0}, \frac{\partial f}{\partial x_1} \right )" /> 처럼 모든 변수의 편미분을 벡터로 정리한 것
+* 기울기 (gradient) : <img src="https://latex.codecogs.com/svg.latex?\left&space;(&space;\frac{\partial&space;f}{\partial&space;x_0},&space;\frac{\partial&space;f}{\partial&space;x_1}&space;\right&space;)" title="\left ( \frac{\partial f}{\partial x_0}, \frac{\partial f}{\partial x_1} \right )" /> 처럼 모든 변수의 편미분을 벡터로 정리한 것
+
+```python
+# code
+```
+
+* 기울기가 가리키는 쪽은 각 장소에서 함수의 출력 값을 가장 줄이는 방향
+
+### 4.4.1 경사법 / 경사 하강법
+
+* 기계 학습 : 학습 단계에서, 손실 함수가 최소가 되는, 최적의 매개 변수를 찾음, 일반적인 경우, 손실 함수는 매우 복잡함
+* 경사법 : 기울기를 활용하여 함수의 최소값을 찾으려는 것, 기울기가 가리키는 곳이 함수의 최소값이라는 보장은 없음
+* 기울어진 방향이 꼭 최소값을 가리키지는 않으나, 그 방향으로 가야 함수의 값을 줄일 수 있음, 기울기 정보를 단서로 나갈 방향을 정함
+
+- 경사법 (Gradient method)
+    1. 현 위치에서 기울어진 방향으로 일정 거리만큼 이동
+    2. 이동한 곳에서도 기울기를 구함
+    3. 그 방향으로 일정 거리만큼 이동하는 일을 반복
+
+* 경사 하강법 (gradient descent method) == 경사 상승법 (gradient ascent method)
+
+- 학습률 (learning rate) : 한 번의 학습으로 얼만큼 학습해야 할지, 즉 매개 변수 값을 얼마나 갱신할지를 정하는 것
+
+* 학습률 값은 '0.01' 이나 '0.001' 등으로 미리 정해둠 
+* 이 값이 너무 크거나 작으면 '좋은 장소' 를 찾아갈 수 없음
+
+
+
+
+
 
