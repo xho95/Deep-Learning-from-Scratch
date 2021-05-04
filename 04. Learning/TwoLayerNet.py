@@ -65,6 +65,7 @@ print(net.params['b2'].shape)
 # x = np.random.rand(100, 784)
 # y = net.predict(x)
 
+"""
 x = np.random.rand(100, 784)
 t = np.random.rand(100, 10)
 
@@ -74,4 +75,4 @@ print(grads['W1'].shape)
 print(grads['b1'].shape)
 print(grads['W2'].shape)
 print(grads['b2'].shape)
-
+"""

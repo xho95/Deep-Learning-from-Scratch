@@ -705,10 +705,103 @@ grads['b2'].shape       # (10,)
 * TwoLayerNet 클래스와 MNIST 데이터셋으로 학습하는 것을 구현
 
 ```python
+import sys, os
+sys.path.append(os.pardir)
+sys.path.append("../03. Nueral Net")
 
+from dataset.mnist import load_mnist
+from TwoLayerNet import TwoLayerNet
+
+import numpy as np
+
+(x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
+
+train_loss_list = []
+
+# hyper parameters
+# iters_num = 10000         # original repeat count
+# batch_size = 100          # original mini batch size
+
+iters_num = 10              # real repeat count
+batch_size = 10             # real mini batch size
+train_size = x_train.shape[0]
+learning_rate = 0.1
+
+network = TwoLayerNet(inputSize=784, hiddenSize=50, outputSize=10)
+
+for i in range(iters_num):
+    # get the mini batch 
+    batch_mask = np.random.choice(train_size, batch_size)
+    x_batch = x_train[batch_mask]
+    t_batch = t_train[batch_mask]
+
+    # calculate the gradient 
+    grad = network.numerical_gradient(x_batch, t_batch)
+    # grad = network.gradient(x_batch, t_batch)         # later!!
+
+    # update the parameters
+    for key in ('W1', 'b1', 'W2', 'b2'):
+        network.params[key] -= learning_rate * grad[key]
+
+    # save the learning process
+    loss = network.loss(x_batch, t_batch)
+    train_loss_list.append(loss)
+
+print(train_loss_list)
+
+# [4.428754448444322, 4.44875101563898, 4.596461662424508, 4.5503150676206525, 4.485566667956772, 4.5864264396726995, 4.470647265300268, 4.591046241053324, 4.592666895068182, 4.52464869948252]
 ```
 
+* 매 번 60,000 개의 훈련 데이터에서 임의로 100 개의 데이터를 추려냄
+* 100 개의 미니 배치를 대상으로 확률적 경사 하강법을 수행하여 매개 변수를 갱신함
+* 경사법에 의한 갱신 횟수 (반복 횟수) 를 10,000 번으로 설정함
+* 갱신할 때마다 훈련 데이터에 대한 손실 함수를 계산하여, 배열에 추가함
+
+- [그림 4-11] : 손실 함수의 값이 변화하는 추이 - 학습 횟수가 늘어가면서 손실 함수의 값이 줄어듬
+
+* 실습에서는 미니 배치가 너무 작어서 손실 함수가 줄어들지 않는다고 판단됨 : 추후 재실습 필요
+
 ### 4.5.3 시험 데이터로 평가하기
+
+* 학습을 반복하면 훈련 데이터의 미니 배치에 대한 손실 함수의 값이 서서히 내려감
+* 훈련 데이터의 손실 함수 값이 작아지는 결과만으로 다른 데이터셋에도 비슷한 실력을 발휘한다는 보장은 없음
+* 신경망 학습에서는 훈련 데이터 외의 데이터를 올바르게 인식하는지 확인이 필요함
+* '오버피팅' : 훈련 데이터에 포함된 이미지만 구분하고, 그외 이미지는 식별할 수 없다는 의미
+
+- 신경망 학습의 원래 목표 : 범용적인 능력을 익히는 것
+- 범용 능력 평가 : 훈련 데이터에 포함되지 않은 데이터를 사용하여 평가함
+- 학습 도중 정기적으로 훈련 데이터와 시험 데이터를 대상으로 정확도를 기록함
+- 여기서는 '1 에폭 (epoch)' 별로 훈련 데이터와 시험 데이터에 대한 정확도를 기록함
+
+* '1 에폭' 은 학습에서 훈련 데이터를 모두 소진했을 때의 횟수에 해당함 
+* 훈련 데이터 10,000 개를 100 개의 미니 배치로 학습하는 경우, 확률적 경사 하강법을 100 회 반복하면 모든 훈련 데이터를 소진함
+* 즉, 이 경우는, 100 회가 1 에폭 임 
+
+- 평가가 제대로 이뤄질 수 있도록 이전 구현을 수정함 : 코드는 `TrainNueralNet.py` 에서 직접 수정함
+
+* 수정한 코드는 '1 에폭' 마다 모든 훈련 데이터와 시험 데이터에 대한 정확도를 계산하고, 그 결과를 기록함
+* 정확도를 '1 에폭' 마다 계산하는 이유는 'for 문' 안에서 계산하기에는 시간이 많이 걸리고, 또 자주 기록할 필요도 없기 때문
+* 추이를 알 수 있기만 하면 됨
+
+* [그림 4-12]
+
+- [그림 4-12] 은, 훈련 데이터에 대한 정확도는 실선, 시험 데이터에 대한 정확도는 점선으로 그림
+- 학습을 진행하여 에폭을 진행할 수록, 훈련 데이터와 시험 데이터를 사용하고 평가한 정확도가 모두 좋아짐
+- 두 정확도에 차이가 없다는 것은, '오버피팅' 이 일어나지 않았다는 것임
+
+## 4.6 정리
+
+* 이번 장은 신경망 학습에 대해서 설명함
+    1. 기계 학습에서 사용하는 데이터셋은 훈련 데이터와 시험 데이터로 나누어서 사요함
+    2. 훈련 데이터에서 학습한 모델의 범용 능력을 시험 데이터로 평가함
+    3. 신경망 학습은 손실 함수를 지표로, 손실 함수의 값이 작아지는 방향으로 가중치 매개 변수를 갱신함
+    4. 가중치 매개 변수를 갱신할 때는 가중치 매개 변수의 기울기를 이용하여, 기울어진 방향으로 가중치 값을 갱신하는 작업을 반복함
+    5. 아주 작은 값을 주었을 때, 차분으로 미분을 구하는 것을, 수치 미분이라고 함
+    6. 수치 미분을 이용하여 가중치 매개 변수의 기울기를 구할 수 있음
+    7. 수치 미분을 이용한 계산에는 시간이 걸리지만, 구현은 간단함
+
+* 다음 장에서는 구현은 다소 복잡하지만 기울기를 고속으로 구할 수 있는 '오차 역전파법' 을 구현함
+
 
 
 
