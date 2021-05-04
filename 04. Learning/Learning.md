@@ -544,6 +544,93 @@ dW = numerical_gradient(f, net.W)
 * 신경망의 기울기를 구한 다음에는 경사법에 따라 가중치 매개 변수를 갱신하면 됨
 * 다음 절은 2층 신경망을 대상으로 학습 과정 전체를 구현함
 
+## 4.5 학습 알고리즘 구현하기
+
+* 신경망 학습 : '신경망' 에는 적응 가능한 가중치와 편향이 있고, 훈련 데이터에 적응하도록 이를 조정하는 과정을 '학습' 이라 함
+* 신경망 학습 과정
+    1. 미니 배치 : 훈련 데이터 중 일부를 무작위로 가져옴. 이렇게 선별한 데이터를 '미니 배치' 라 하며, 목표는 '미니 배치' 의 손실 함수 값을 줄이는 것
+    2. 기울기 산출 : 미니 배치의 '손실 함수' 값을 줄이기 위해 각 가중치 매개 변수의 기울기를 구함. 기울기는 손실 함수의 값을 가장 작게하는 방향임
+    3. 매개 변수 갱신 : 가중치 매개 변수를 기울기 방향으로 아주 조금 갱신함
+    4. 반복 : 1~3 을 반복함
+
+- 위는 '경사 하강법' 으로 매개 변수를 갱신하는 방법
+- 확률적 경사 하강법 (SGD; stochastic gradient descent) : 확률적으로 무작위로 골라낸 '미니 배치' 에 대해 수행하는 경사 하강법
+
+* 손글씨 숫자를 학습하는 신경망 구현 : 2층 신경망을 대상으로 MNIST 데이터셋을 사용하여 학습함
+
+### 4.5.1 2층 신경망 클래스 구현하기
+
+* 2층 신경망을 하나의 클래스로 구현
+
+```python
+import sys, os
+sys.path.append(os.pardir)
+sys.path.append("../03. Nueral Net")
+
+from NueralNet import softmax
+from MiniBatchLossFunction import cross_entropy_error
+from NumericGradient import numerical_gradient 
+
+import numpy as np
+
+class TwoLayerNet: 
+    def __init__(self, inputSize, hiddenSize, outputSize, weightInitStd = 0.01):
+        # initialize the weights
+        self.params = {}
+        self.parmas['W1'] = weightInitStd * np.random.randn(inputSize, hiddenSize)
+        self.params['b1'] = np.zeros(hiddenSize)
+        self.params['W2'] = weightInitStd * np.random.randn(hiddenSize, outputSize)
+        self.params['b2'] = np.zeros(outputSize)
+
+    def predict(self, x):
+        W1, W2 = self.params['W1'], self.params['W2']
+        b1, b2 = self.params['b1'], self.params['b2']
+
+        a1 = np.dot(x, W1) + b1
+        z1 = sigmoid(a1)
+        a2 = np.dot(z1, W2) + b2
+        y = softmax(a2)
+
+        return y
+    
+    # x: input, t: solution label
+    def loss(self, x, t):
+        y = self.predict(x)
+
+        return cross_entropy_error(y, t)
+
+    def accuracy(self, x, t):
+        y = self.predict(x)
+        y = np.argmax(y, axis=1)
+        t = np.argmax(t, axis=1)
+
+        accuracy = np.sum(y == t) / float(x.shape[0])
+        return accuracy
+
+    def numerical_gradient(self, x, t):
+        lossW = lambda W: self.loss(x, t)
+
+        grads = {}
+        grads['W1'] = numerical_gradient(lossW, self.params['W1'])
+        grads['b1'] = numerical_gradient(lossW, self.params['b1'])
+        grads['W2'] = numerical_gradient(lossW, self.params['W2'])
+        grads['b2'] = numerical_gradient(lossW, self.params['b2'])
+
+        return grads
+```
+
+* TwoLayerNet 클래스가 사용하는 변수
+
+변수 | 설명 | 
+---|---|---
+params | 신경망의 매개 변수를 보관하는 딕셔너리 | 
+ | params['W1'] 은 첫 번째 층의 가중치, params['b1'] 은 첫 번째 층의 편향 | 
+ | params['W2'] 은 두 번째 층의 가중치, params['b2'] 은 두 번째 층의 편향 | 
+
+* TwoLayerNet 클래스의 메소드
+---|---|---|---
+
+
 
 
 
