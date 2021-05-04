@@ -34,5 +34,5 @@ def cross_entropy_error_with_label(y, t):
         y = y.reshape(1, y.size)
 
     batch_size = y.shape[0]
-    return -np.sum(np.log(y[np.arrange(batch_size), t])) / batch_size   # 정확하게는 잘 모르겠음
+    return -np.sum(np.log(y[np.arrange(batch_size), t])) / batch_size 
 
