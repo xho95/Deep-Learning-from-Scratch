@@ -623,7 +623,7 @@ class TwoLayerNet:
 
 변수 | 설명 |--- 
 ---|---|---
-params | 신경망의 매개 변수를 보관하는 딕셔너리 \\ params['W1'] 은 첫 번째 층의 가중치, params['b1'] 은 첫 번째 층의 편향 \\ params['W2'] 은 두 번째 층의 가중치, params['b2'] 은 두 번째 층의 편향 | 
+params | 신경망의 매개 변수를 보관하는 딕셔너리 <br /> params['W1'] 은 첫 번째 층의 가중치, params['b1'] 은 첫 번째 층의 편향 <br /> params['W2'] 은 두 번째 층의 가중치, params['b2'] 은 두 번째 층의 편향 | 
 
 * TwoLayerNet 클래스의 메소드
 
