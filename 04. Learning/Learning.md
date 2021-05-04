@@ -621,12 +621,94 @@ class TwoLayerNet:
 
 * TwoLayerNet 클래스가 사용하는 변수
 
-변수 | 설명 |--- 
+변수 | 설명 |
 ---|---|---
 params | 신경망의 매개 변수를 보관하는 딕셔너리 <br /> params['W1'] 은 첫 번째 층의 가중치, params['b1'] 은 첫 번째 층의 편향 <br /> params['W2'] 은 두 번째 층의 가중치, params['b2'] 은 두 번째 층의 편향 | 
+grads | 기울기를 보관하는 딕셔너리 <br /> grads['W1'] 은 첫 번째 층 가중치의 기울기, grads['b1'] 은 첫 번째 층 편향의 기울기 <br /> grads['W2'] 은 두 번째 층 가중치의 기울기, grads['b2'] 은 두 번째 층 편향의 기울기 | 
 
 * TwoLayerNet 클래스의 메소드
 
+메소드 | 설명 |
+---|---|---
+`__init__(self, inputSize, hiddenSize, outputSize)` | 초기화 수행 <br /> 인자는 순서대로 입력층 뉴런 수, 은닉층 뉴런 수, 출력층 뉴런 수 | 
+`predict(self, x)` | 예측 수행 <br /> 인자 `x` 는 이미지 데이터 | 
+`loss(self, x, t)` | 손실 함수의 값을 구함 <br /> 인자 `x` 는 이미지 데이터, `t` 는 정답 레이블 | 
+`accuracy(self, x, t)` | 정확도 구함 <br /> 인자 `x` 는 이미지 데이터, `t` 는 정답 레이블 | 
+`numerical_gradient(self, x, t)` | 가중치 매개 변수의 기울기 구함 <br /> 인자 `x` 는 이미지 데이터, `t` 는 정답 레이블 | 
+`gradient(self, x, t)` | 가중치 매개 변수의 기울기 구함 <br /> `numerical_gradient()` 의 성능 개선판 <br /> 구현은 다음 장에서 함 | 
+
+* `TwoLayerNet` 클래스는 `params` 와 `grads` 라는 딕셔너리를 인스턴스 변수로 가짐
+
+```python
+net = TwoLayerNet(inputSize = 784, hiddenSize = 100, outputSize = 10)
+
+net.params['W1'].shape      # (784, 100)
+net.params['b1'].shape      # (100,)
+net.params['W2'].shape      # (100, 10)
+net.params['b2'].shape      # (10,)
+```
+
+* 위와 같이 `params` 변수에 신경망에 필요한 모든 매개 변수가 저장되며, 이를 '예측 처리 (순방향)' 에서 사용함
+* 다음 처럼 예측 처리를 실행할 수 있음
+
+```python
+x = np.random.rand(100, 784)
+y = net.predict(x)
+```
+
+* `grads` 변수에는 `params` 변수에 대응하는 각 매개 변수의 기울기가 저장됨
+* 다음 처럼 `numerical_gradient()` 메소드를 사용하여 기울기를 계산하면 `grads` 변수에 기울기 정보가 저장됨
+
+```python
+x = np.random.rand(100, 784)    # dummy input data with 100 images
+t = np.random.rand(100, 10)     # dummy label with 100 images
+
+grads = net.numerical_gradient(x, t)
+
+grads['W1'].shape       # (784, 100)
+grads['b1'].shape       # (100,)       
+grads['W2'].shape       # (100, 10)
+grads['b2'].shape       # (10,)
+```
+
+- 위 코드를 맥에서 돌려보면 생각보다 시간이 많이 걸림
+
+* TwoLayerNet 메소드
+
+- `__init__(self, inputSize, hiddenSize, outpuSize)` 메소드
+    1. 클래스 초기화
+    2. 인수는 순서대로 입력층 뉴런 수, 은닉층 뉴런 수, 출력층 뉴런 수
+    3. 손글씨 숫자 인식의 경우 입력은 28x28 = 784 이고, 출력은 10 개임
+    4. 따라서 inputSize=784, outputSize=10 으로 지정, 은닉층 개수인 hiddenSize 는 적당한 값으로 설정함
+    5. 가중치 매개 변수도 초기화함 : 가중치 매개 변수의 초기값이 신경망 학습의 성공을 좌우하기도 함
+    6. 일단은 정규분포를 따르는 '난수' 로, 편향은 '0' 으로 초기화함 : 나중에 다시 살펴봄
+- `predict(self, x)`, `accuracy(self, x, t)`
+    1. 앞에 있는 신경망 예측 처리와 거의 같음 : 앞 장 확인
+- `loss(self, x, t)`
+    1. 손실 함수의 값을 계산하는 메소드
+    2. `predict()` 결과와 '정답 레이블' 을 기준으로 '교차 엔트로피 오차' 를 구함
+- `numerical_gradient(self, x, t)` 
+    1. 수치 미분 방식으로 각 매개 변수의 손실 함수에 대한 기울기를 계산함
+- `gradient(self, x, t)`
+    1. 오차 역전파법을 사용하여 기울기를 효율적이고 빠르게 계산함
+    2. 다음 장에서 계산함
+
+* `numerical_gradient(self, x, t)` 는 '수치 미분 방식' 으로 매개 변수의 기울기를 계산함
+* '오차 역전파법' : 기울기 계산을 고속으로 수행하는 기법 - 다음 장에서 설명함
+* '오차 역전파법' 을 사용하면 '수치 미분' 을 사용할 때와 거의 같은 결과를 훨씬 빠르게 얻을 수 있음
+* `gradient(self, x, t)` : 다음 장에서 구현 - 신경망 학습에는 이를 사용하는 것이 좋음
+
+### 4.5.2 미니 배치 학습 구현하기
+
+* 신경망 학습 구현에는 앞에서 설명한 미니 배치 학습을 활용함
+* 미니 배치 학습 : 훈련 데이터 중 일부를 무작위로 꺼내고, 그 미니 배치에 대해서 경사법으로 매개 변수를 갱신하는 것임
+* TwoLayerNet 클래스와 MNIST 데이터셋으로 학습하는 것을 구현
+
+```python
+
+```
+
+### 4.5.3 시험 데이터로 평가하기
 
 
 

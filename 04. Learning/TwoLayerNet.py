@@ -2,8 +2,8 @@ import sys, os
 sys.path.append(os.pardir)
 sys.path.append("../03. Nueral Net")
 
-from NueralNet import softmax
-from MiniBatchLossFunction import cross_entropy_error
+from NueralNet import softmax, sigmoid
+from MiniBatchLossFunction import cross_entropy_error_from_oreily, cross_entropy_error_with_label
 from NumericGradient import numerical_gradient 
 
 import numpy as np
@@ -12,7 +12,7 @@ class TwoLayerNet:
     def __init__(self, inputSize, hiddenSize, outputSize, weightInitStd = 0.01):
         # initialize the weights
         self.params = {}
-        self.parmas['W1'] = weightInitStd * np.random.randn(inputSize, hiddenSize)
+        self.params['W1'] = weightInitStd * np.random.randn(inputSize, hiddenSize)
         self.params['b1'] = np.zeros(hiddenSize)
         self.params['W2'] = weightInitStd * np.random.randn(hiddenSize, outputSize)
         self.params['b2'] = np.zeros(outputSize)
@@ -32,7 +32,7 @@ class TwoLayerNet:
     def loss(self, x, t):
         y = self.predict(x)
 
-        return cross_entropy_error(y, t)
+        return cross_entropy_error_from_oreily(y, t)
 
     def accuracy(self, x, t):
         y = self.predict(x)
@@ -53,7 +53,25 @@ class TwoLayerNet:
 
         return grads
 
+net = TwoLayerNet(inputSize = 784, hiddenSize = 100, outputSize = 10)
 
-        
+"""
+print(net.params['W1'].shape)
+print(net.params['b1'].shape)
+print(net.params['W2'].shape)
+print(net.params['b2'].shape)
+"""
 
-    
+# x = np.random.rand(100, 784)
+# y = net.predict(x)
+
+x = np.random.rand(100, 784)
+t = np.random.rand(100, 10)
+
+grads = net.numerical_gradient(x, t)
+
+print(grads['W1'].shape)
+print(grads['b1'].shape)
+print(grads['W2'].shape)
+print(grads['b2'].shape)
+
