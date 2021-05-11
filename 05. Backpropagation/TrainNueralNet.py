@@ -15,7 +15,7 @@ network = TwoLayerNet(inputSize=784, hiddenSize=50, outputSize=10)
 
 # iters_num = 10000         # original repeat count
 # batch_size = 100          # original mini batch size
-iters_num = 10              # real repeat count
+iters_num = 5000              # real repeat count
 batch_size = 100             # real mini batch size
 train_size = x_train.shape[0]
 learning_rate = 0.1
@@ -50,7 +50,7 @@ for i in range(iters_num):
         test_acc = network.accuracy(x_test, t_test)
         train_acc_list.append(train_acc)
         test_acc_list.append(test_acc)
-        print("train acc, test acc | " + str(train_acc) + ", " + str(test_acc))
+        #print("train acc, test acc | " + str(train_acc) + ", " + str(test_acc))
 
 print(train_loss_list)
 

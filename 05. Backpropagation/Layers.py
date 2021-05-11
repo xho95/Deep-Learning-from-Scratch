@@ -4,7 +4,7 @@ sys.path.append("../03. Nueral Net")
 sys.path.append("../04. Learning")
 
 from NueralNet import softmax
-from MiniBatchLossFunction import cross_entropy_error_from_oreily, cross_entropy_error_with_label
+from MiniBatchLossFunction import cross_entropy_error, cross_entropy_error_from_oreily, cross_entropy_error_with_label
 
 import numpy as np
 
@@ -70,11 +70,17 @@ class SoftmaxWithLoss:
     def forward(self, x, t):
         self.t = t
         self.y = softmax(x)
+        #self.loss = cross_entropy_error(self.y, self.t)
         self.loss = cross_entropy_error_from_oreily(self.y, self.t)
         return self.loss 
 
     def backward(self, dout=1):
         batch_size = self.t.shape[0]
-        dx = (self.y - self.t) / batch_size 
-
+        if self.t.size == self.y.size:      # from O'reily
+            dx = (self.y - self.t) / batch_size
+        else:
+            dx = self.y.copy()
+            dx[np.arange(batch_size), self.t] -= 1
+            dx = dx / batch_size
+        
         return dx

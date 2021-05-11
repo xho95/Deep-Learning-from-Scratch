@@ -17,7 +17,7 @@ x_batch = x_train[:3]
 t_batch = t_train[:3]
 
 grad_numerical = network.numerical_gradient(x_batch, t_batch)
-grad_backprop = network.numerical_gradient(x_batch, t_batch)
+grad_backprop = network.gradient(x_batch, t_batch)
 
 # error mean
 for key in grad_numerical.keys():

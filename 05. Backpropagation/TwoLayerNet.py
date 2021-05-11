@@ -12,7 +12,8 @@ from collections import OrderedDict
 import numpy as np
 
 class TwoLayerNet: 
-    def __init__(self, inputSize, hiddenSize, outputSize, weightInitStd = 0.01):
+    def __init__(self, inputSize, hiddenSize, outputSize, weightInitStd=0.01):
+    #def __init__(self, input_size, hidden_size, output_size, weight_init_std = 0.01):
         # initialize the weights
         self.params = {}
         self.params['W1'] = weightInitStd * np.random.randn(inputSize, hiddenSize)
