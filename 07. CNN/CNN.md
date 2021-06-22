@@ -305,6 +305,117 @@
     - (OH, OW) 가 (3, 3) 인 것을 1차원으로 만들었기 때문에 9 가 됨
 
 * `im2col` 을 사용한 합성곱 계층 구현
+    - Convolution 이라는 클래스로 구현
     - jupytor
 
+```python
+class Convolution:
+    def __init__(self, W, b, stride=1, pad=0):
+        self.W = W
+        self.b = b
+        self.stride = stride
+        self.pad = pad
+
+    def forward(self, x):
+        FN, C, FH, FW = self.W.shape
+        N, C, H, W = x.shape
+        out_h = 1 + int((H + 2*self.pad - FH) / self.stride)
+        out_w = 1 + int((W + 2*self.pad - FW) / self.stride)
+
+        col = im2col(x, FH, FW, self.stride, self.pad)
+        col_W = self.W.reshape(FN, -1).T
+
+        out = np.dot(col, col_W) + self.b
+        out = out.reshape(N, out_h, out_w, -1).transpose(0, 3, 1, 2)
+
+        return out
+```
+
+* 합성곱 계층
+    - 필터 (가중치), 편향, 스트라이드, 패딩을 인수로 받아 초기화
+    - 필터는 (FN, C, FH, FW) 라는 4차원 형상
+    - im2col 로 입력 데이터를 전개함
+    - reshape 으로 필터도 2차원 배열로 전개함
+    - 필터 전개 시에는 각 필터 블럭을 1줄로 펼쳐 세움
+    - reshape 의 두 번째 인수인 `-1` 은 다차원 배열의 원소 수가 변환 후에도 똑같이 유지되도록 적저히 묶어주는 편의 기능임
+    - 예를 들어, (10, 3, 5, 5) 형상의 다차원 배열 (750 개 원소) 에 `reshape(10, -1)` 를 호출하면 형상이 (10, 75) 인 배열 만듦 (750개 10묶음)
+    - 전개한 두 행렬의 내적을 구함
+    - forward 구현 마지막에서는 출력 데이터를 적절한 형상으로 바꿔줌
+    - transpose 함수 : 다차원 배열의 축 순서를 바꿔주는 함수
+    - (0으로 시작하는) 인덱스를 사용하여 축의 순서를 변경함
+    - (N 0, H, 1, W 2, C 3) -> (N 0, C 3, H 1, W 2)
+    - im2col 전개 덕부에 Affine 계층과 거의 똑같이 구현 가능함
+    - 합성곱 계층의 역전파는 Affine 계층 구현과 공통점이 많아서 설명하지 않음
+    - 합성곱 계층의 역전파는 im2col 을 역으로 처리해야 함 : com2im 함수 사용 - 구현은 common/util.py 에 있음
+    - 합성곱 계층의 전체 구현은 common/layer.py 에 있음
+
 ### 7.4.4 풀링 계층 구현하기
+
+* im2col
+    - 풀링 계층의 구현도 합성곱 계층 처럼 im2col 을 사용하여 전개함
+    - 단, 풀링은 채널 쪽이 독립적임
+    - 그림 7-21 : 풀링은 적용 영역을 채널마다 독립적으로 전개함
+    - 전개한 후에 행렬에서 행별 최대값을 구하고 적저한 형상으로 만들면 됨
+    - 이것이 풀링 계층의 forward 처리 흐름임
+
+* 풀링 계층의 구현
+    - 코드 : jupytor
+    - 세 단계로 진행
+        1. 입력 데이터를 전개함
+        2. 행별 최대값을 구함
+        3. 적절한 모양으로 만듦
+    - 각 단계는 한두 줄 정도로 간단하게 구현할 수 있음
+
+```python
+class Pooling:
+    def __init__(self, pool_h, pool_w, stride=2, pad=0):
+        self.pool_h = pool_h
+        self.pool_w = pool_w
+        self.stride = stride
+        self.pad = pad
+        
+    def forward(self, x):
+        N, C, H, W = x.shape
+        out_h = int(1 + (H - self.pool_h) / self.stride)
+        out_w = int(1 + (W - self.pool_w) / self.stride)
+
+        col = im2col(x, self.pool_h, self.pool_w, self.stride, self.pad)
+        col = col.reshape(-1, self.pool_h*self.pool_w)
+
+        out = np.max(col, axis=1)
+        out = out.reshape(N, out_h, out_w, C).transpose(0, 3, 1, 2)
+
+        return out
+```
+
+> 최대값 계산은 NumPy 의 np.max 메소드 사용 가능. 
+>
+> np.max 는 인수로 '축 (axis)' 을 지정할 수 있으며, 인수로 지정한 축마다 최대값을 구할 수 있음
+>
+> np.max(x, axis=1) 은 입력 x 의 1 번째 차원의 축마다 최대값을 구함
+
+* 풀링 계층
+    - 위 코드가 forward 처리
+    - 입력 데이터를 풀링하기 쉬운 형태로 전개하면 그 이후의 구현이 간단해짐
+    - backward 처리는 설명 생략 : "5.5.1 ReLU 계층" 구현 때 사용한 max 역전파 참고
+    - 풀링 계층의 전체 구현은 common/layer.py 에 있음
+
+## 7.5 CNN 구현하기
+
+* SimpleConvNet
+    - 손글씨 숫자를 인식하는 CNN : 구현한 합성곱 계층과 풀링 계층을 조합
+    - 그림 7-23 : Conv-ReLU-Pooling-Affine-ReLU-Affine-Softmax 으로 구성한 3-층 CNN
+    - 초기화 인수
+        * input_dim : 입력 데이터 (C, H, W) 차원
+        * conv_param : 합성곱 계층의 하이퍼 파라미터 (딕셔너리), 딕셔너리 키는 다음과 같음
+            - filter_num : 필터 개수
+            - filter_size : 필터 크기
+            - stride : 스트라이드
+            - pad : 패딩
+        * hidden_size : 은닉층 (완전 연결) 뉴런 개수
+        * output_size : 출력층 (완전 연결) 뉴런 개수
+        * weight_init_std : 초기화 때의 가중치 표준 편차
+    - 합성곱 계층의 하이퍼 파라미터는 딕셔너리로 주어짐 : ['filter_num': 30, 'filter_size': 5, 'pad': 0, 'stride': 1]
+
+
+
