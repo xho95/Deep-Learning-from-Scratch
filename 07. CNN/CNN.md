@@ -417,5 +417,204 @@ class Pooling:
         * weight_init_std : 초기화 때의 가중치 표준 편차
     - 합성곱 계층의 하이퍼 파라미터는 딕셔너리로 주어짐 : ['filter_num': 30, 'filter_size': 5, 'pad': 0, 'stride': 1]
 
+* SimpleConvNet 의 초기화 부부 설명
+    - 세 부분으로 나누어서 설명
 
+```python
+class SimpleConvNet:
+    def __init__(self, input_dim=(1, 28, 28), 
+                 conv_param={'filter_num':30, 'filter_size':5, 'pad':0, 'stride':1},
+                 hidden_size=100, output_size=10, weight_init_std=0.01):
+        filter_num = conv_param['filter_num']
+        filter_size = conv_param['filter_size']
+        filter_pad = conv_param['pad']
+        filter_stride = conv_param['stride']
+        input_size = input_dim[1]
+        conv_output_size = (input_size - filter_size + 2*filter_pad) / filter_stride + 1
+        pool_output_size = int(filter_num * (conv_output_size/2) * (conv_output_size/2))
+```
 
+    - 초기화 인자로 받은 합성곱 계층의 하이퍼 파라미터를 딕셔너리에서 꺼냄
+    - 합성곱 계층의 출력 크기를 계산함
+
+```python
+        # 重みの初期化
+        self.params = {}
+        self.params['W1'] = weight_init_std * \
+                            np.random.randn(filter_num, input_dim[0], filter_size, filter_size)
+        self.params['b1'] = np.zeros(filter_num)
+        self.params['W2'] = weight_init_std * \
+                            np.random.randn(pool_output_size, hidden_size)
+        self.params['b2'] = np.zeros(hidden_size)
+        self.params['W3'] = weight_init_std * \
+                            np.random.randn(hidden_size, output_size)
+        self.params['b3'] = np.zeros(output_size)
+```
+
+    - 가중치 매개 변수를 초기화
+    - 학습에 필요한 매개 변수는 1 번째 층의 합성곱 계층 및 나머지 두 완전 연결 계층의 가중치와 편향임
+    - 이 매개 변수들을 인스턴스 변수 params 딕셔너리에 저장함
+
+```python
+        self.layers = OrderedDict()
+        self.layers['Conv1'] = Convolution(self.params['W1'], self.params['b1'],
+                                           conv_param['stride'], conv_param['pad'])
+        self.layers['Relu1'] = Relu()
+        self.layers['Pool1'] = Pooling(pool_h=2, pool_w=2, stride=2)
+        self.layers['Affine1'] = Affine(self.params['W2'], self.params['b2'])
+        self.layers['Relu2'] = Relu()
+        self.layers['Affine2'] = Affine(self.params['W3'], self.params['b3'])
+
+        self.last_layer = SoftmaxWithLoss()
+```
+
+    - CNN 을 구성하는 계층을 생성함
+    - 순서 있는 딕셔너리인 layers 에 계층들을 차례로 추가함
+    - 마지막 SoftmaxWithLoss 계층은 lastLayer 라는 별도 변수에 저장함
+
+* SimpleConvNet 나머지 부분
+    - 추론을 수행하는 predict 메소드와 손실 함수의 값을 구하는 loss 메소드
+        * 인수 x 는 입력 데이터, t 는 정답 레이블
+        * 추론을 수행하는 predict 메소드는 초기화 때 layers 에 추가한 계층을 맨 앞에서부터 차례로 forward 메소드를 호출하며 결과를 다음 계층에 전달
+        * 손실 함수를 구하는 loss 메소드는 predict 메소드 결과를 인자로 마지막 층의 forward 메소드를 호출함
+        * 즉, 첫 계층부터 마지막 계층까지 forward 처리를 함
+
+```python
+    def predict(self, x):
+        for layer in self.layers.values():
+            x = layer.forward(x)
+
+        return x
+
+    def loss(self, x, t):
+        y = self.predict(x)
+        return self.last_layer.forward(y, t)
+```
+
+    - 오차 역전파법으로 기울기를 구하는 구현
+        * 매개 변수의 기울기는 오차 역전파법으로 구함 : 순전파와 역전파를 반복함
+        * 지금까지 순전파와 역전파를 제대로 구현했으면, 여기서는 적절한 순서로 이들을 호출해주면 됨
+        * 마지막으로 grad 라는 딕셔너리 변수에 각 가중치 매개 변수의 기울기를 저장함
+
+```python
+    def gradient(self, x, t):
+        # forward
+        self.loss(x, t)
+
+        # backward
+        dout = 1
+        dout = self.last_layer.backward(dout)
+
+        layers = list(self.layers.values())
+        layers.reverse()
+        for layer in layers:
+            dout = layer.backward(dout)
+
+        # 設定
+        grads = {}
+        grads['W1'], grads['b1'] = self.layers['Conv1'].dW, self.layers['Conv1'].db
+        grads['W2'], grads['b2'] = self.layers['Affine1'].dW, self.layers['Affine1'].db
+        grads['W3'], grads['b3'] = self.layers['Affine2'].dW, self.layers['Affine2'].db
+
+        return grads
+```
+
+    - 여기 까지가 SimpleConvNet 구현임
+
+* SimpleConvNet 으로 MNIST 데이터셋 학습
+    - 학습을 위한 코드 및 설명은 "4.5 학습 알고리즘 구현하기" 와 비슷하여 생략함
+    - 소스 코드는 ch07/train_convnet.py 에 있음
+    - SimpleConvNet 을 MNIST 데이터셋으로 학습하면 훈련 데이터에 대한 정확도는 99.92%, 시험 데이터에 대한 정확도는 98.96% 임
+    - 시험 데이터에 대한 정확도가 99% 임은 비교적 작은 네트워크로서는 아주 높은 것임
+    - 다음 장에서는 계층을 더 깊게 하여 시험 데이터에 대한 정확도가 99% 를 넘는 네트워크를 구현할 것임
+
+* SimpleConvNet 결론
+    - 합성곱 계층과 풀링 계층은 이미지 인식에 필수적인 모듈임
+    - 이미지라는 공간적인 형삭에 담긴 특징을 CNN 이 잘 파악하여 손글씨 숫자 인식에서 높은 정확도를 달성할 수 있었음
+
+## CNN 시각화하기
+
+* CNN 을 구성하는 합성곱 계층은 입력 이미지 데이터에서 무엇을 보고 있는가?
+* 이번 절은 합성곱 계층을 시각화해서 CNN 이 보고 있는 것이 무엇인지를 알아봄
+
+### 7.6.1 첫 번째 층의 가중치 시각화하기
+
+* MNIST 데이터셋의 CNN 학습
+    - 첫 번째 층의 합성곱 계층 가중치 형상은 (30, 1, 5, 5) : (필터 30개, 채널 1개, 5x5 크기)
+    - 필터 크기 5x5, 채널 1개 : 이 필터를 회색 이미지로 시각화 할 수 있다는 의미
+    - 합성곱 (첫 번째) 계층의 필터를 이미지로 나타내 봄
+    - 학습 전과 후의 가중치 비교 : 코드는 ch07/visualize_filter.py 에 있음
+
+* 그림 7-24
+    - 학습 전과 후의 첫 번째 층 가중치
+    - 가중치 원소는 실수이나 이미지에서는 가장 작은 값 (0) 은 검은색, 가장 큰 값 (255) 는 흰색으로 정규화하여 표시함
+    - 학습 전 필터는 무작위로 초기화하여 흑백 정도에 규칙성이 없음
+    - 학습 후 필터는 규칙성 있는 이미지가 됨 : 흰색에서 검은색으로 점차 변화하고, '덩어리 (blob)' 가 있는 등의, 규칙을 띄는 필터로 바뀜
+    - 규칙성 있는 필터가 보고 있는 것 : '경계선 (edge)' 와 '덩어리 영역 (blob)' 등을 보고 있음
+    - 그림 7-25 : 학습된 필터 2개를 선택하여 입력 이미지에 합성곱 처리를 한 결과
+    - 왼쪽 절반이 흰색이고 오른쪽 절반이 검은색인 필터는 세로 방향의 에지에 반응하는 필터임
+    - '필터 1' 은 세로 에지에 반응하며 '필터 2' 는 가로 에지에 반응하는 것을 볼 수 있음
+
+* 합성곱 계층의 필터
+    - '경계선 (edge)' 이나 '덩어리 (blob)' 등의 원시적인 정보를 추출할 수 있음
+    - 원시적인 정보를 뒤의 계층에 전달하는 것이 CNN 에서 일어나는 일임
+
+### 7.6.2 층 깊이에 따른 추출 정보 변화
+
+* CNN 의 각 계층에서 추출되는 정보
+    - 첫 번째 층 : '경계선 (edge)' 이나 '덩어리 (blob)' 등의 저수준 정보를 추출
+    - 계층이 깊어질 수록 추출되는 정보가 (강하게 반응하는 뉴런이) 더 추상화 됨 : 딥러닝 시각화에 대한 연구 (책 주석) 참고
+
+* 그림 7-26
+    - AlexNet : 일반 사물 인식을 수행한 8-층의 CNN - 합성곱 계층과 풀링 계층을 여러 겹 쌓고 마지막에 완전 연결 계층을 거쳐 출력하는 구조
+    - 1 번째 층은 에지와 블롭, 3 번째 층은 텍스처, 5 번째 층은 사물의 일부, 마지막 완전 연결 계층은 사물의 클래스 (개, 자동차 등) 에 뉴런이 반응함
+
+* 딥러닝
+    - 딥러닝은 합성곱 계층을 여러 겹 쌓으면, 층이 깊어지면서 더 복잡하고 추상화된 정보 추출됨
+    - 처음 층은 단순한 에지에 반응하고, 이어서 텍스처, 그리고 더 복잡한 사물 일부에 반응하도록 변화함
+    - 층이 깊어지면서 뉴런이 반응하는 대상이 단순한 모양에서 고급 정보로 변화함 : 즉, 사물의 의미를 이해하도록 변화하는 것
+
+## 7.7 대표적인 CNN
+
+* CNN 의 종류
+    - 현재까지 제안된 CNN 네트워크는 다양함
+    - 특히 중요한 네트워크 두 가지 : LeNet - CNN 원조, AlexNet - 딥러닝이 주목받도록 한 네트워크
+
+### 7.7.1 LeNet
+
+* LeNet
+    - 손글씨 숫자를 인식하는 네트워크 
+    - 1998 년에 제안됨
+    - 그림 7-27 : 합성곱 계층과 (서브 샘플링만 하는) 풀링 계층을 반복하고, 마지막에 완전 연결 계층을 거치면서 결과 출력
+    - 현재의 CNN 과의 차이
+        1. LeNet 은 시그모이드 함수를 활성화 함수로 사용, 현재 CNN 은 ReLU
+        2. LeNet 은 서브 샘플링을 하여 중간 데이터의 크기가 작아지지만, 현재 CNN 은 최대 풀링이 주류임
+    - LeNet 이 20년 전에 제안된 첫 CNN 임을 생각하면 차이는 크지 않음
+
+### 7.7.2 AlexNet
+
+* AlexNet
+    - 비교적 최근인 2012 년에 발표, 딥러닝 열풍을 일으킴
+    - 그림 7-28 : 구성은 LeNet 과 크게 다르지 않음 - 합성곱 계층과 풀링 계층을 거듭하며 마지막으로 완전 연결 계층을 거쳐 결과 출력
+    - AlexNet 의 변화점
+        1. 활성화 함수로 ReLU 사용
+        2. LRN (Local Response Normalization) 이라는 국소적 정규화 계층을 이용함
+        3. '드랍 아웃 (Drop Out)' 사용
+    - 네트워크 구성면에서 LeNet 과 AlexNet 은 큰 차이가 없음 : 주변 환경과 컴퓨터 기술이 큰 진보를 이룬 것임
+    - 빅 데이터와 GPU : 딥러닝 발전의 원동력
+
+> 딥러닝 (심층 신경망) 에는 수많은 매개 변수가 사용됨 : 학습에는 엄청난 양의 계산, 매개 변수 피팅에 데이터도 대량으로 필요
+>
+> GPU 와 빅 데이터는 이런 문제에 해결책이 됨
+
+## 7.8 정리
+
+* CNN 에 대해 알아봄
+* CNN 의 기본 모듈인 합성곱 계층과 풀링 계층은 다소 복잡하지만, 한 번 이해하면 사용하기만 하면 됨
+
+* 이번 장에서 배운 것
+    1. CNN 은 지금까지의 완전 연결 계층 네트워크에 합성곱 계층과 풀링 계층을 새로 추가함
+    2. 합성곱 계층과 풀링 계층은 (이미지를 행렬로 전개하는 함수인) im2col 를 이용하면 간단하고 효율적으로 구현할 수 있음
+    3. CNN 을 시각화해보면 계층이 깊어질 수록 고급 정보가 추출되는 모습을 확인 가능함
+    4. 대표적인 CNN 에는 LeNet 과 AlexNet 이 있음
+    5. 딥러닝 발전에는 빅 데이터와 GPU 가 크게 기여함
